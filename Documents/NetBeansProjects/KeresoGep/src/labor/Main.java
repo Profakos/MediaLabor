@@ -229,9 +229,9 @@ public class Main extends Frame {
         public int compare(Integer o1, Integer o2) {
             
                 
-                 if(pr.get(o1)<pr.get(o2)) return -1;
+                 if(pr.get(o1)<pr.get(o2)) return  1;
              //    if(pr.get(o1)==pr.get(o2)) return 0;
-                 if(pr.get(o1)<pr.get(o2)) return 1;
+                 if(pr.get(o1)<pr.get(o2)) return -1;
                  
                  return 0;
         }
