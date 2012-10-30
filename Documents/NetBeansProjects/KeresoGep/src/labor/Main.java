@@ -210,7 +210,7 @@ public class Main extends Frame {
                        
                         double sum = d*szumma + (1.0-d)/sorok;
                         pr.put(ii, sum); //az ii indexű elembe eltárolja
-                       
+                        
                        
                     }
                    
