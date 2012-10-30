@@ -8,9 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Main extends Frame {
    
@@ -20,35 +18,45 @@ public class Main extends Frame {
     int elek = 0;
    
     TextField tfield;
+    TextArea tarea;
    
     HashMap<Integer, String> linkek;
    
     Integer[][] szomsz; //szomszédossági mátrix
-    double[] pr; //pagerank
+   // double[] pr; //pagerank
+   HashMap<Integer, Double> pr; // Pagerank egy hashmap, hogy rendezéskor ne vesszen el az ID
    
    Main()
    {
-       linkek = new HashMap<Integer, String>();
+       linkek = new HashMap<>();
+       pr = new HashMap<>();
        
-       
-       Label label0 = new Label("Ird be a file nevét");
+       Label label0 = new Label("Írd be a keresett nevét");
        
         tfield = new TextField("");
+        
+        tarea = new TextArea("");
        
-       Label label1 = new Label("Indításhoz kattints a gombra");
+        
        Button startButton = new Button("submit");
        
        Label label3 = new Label("");
        
        this.setLayout(new GridLayout(0,1));
        
-       this.add(label0);
+       Panel p1 = new Panel();
        
-       this.add(tfield); //beviteli mező, "top_depth.txt" fog rendesen futni
+       p1.setLayout(new GridLayout(0,1));
        
-       this.add(label1);
+       p1.add(label0);
        
-       this.add(startButton); //ezzel indul el
+       p1.add(tfield); //beviteli mező, "top_depth.txt" fog rendesen futni
+     
+        p1.add(startButton); //ezzel indul el
+       
+        this.add(p1);
+        
+       this.add(tarea);
        
        this.setBounds(600,300, 300, 300);
    
@@ -170,50 +178,51 @@ public class Main extends Frame {
        
            
            
-           pr = new double[sorok]; //page rank mátrix
+           //A page rank mátrix egy egydimenziós tömb, hashmap ben implementálva
            
-           for(int ii = 0; ii<sorok; ii++) //inicializálás
+           for(int ii = 1; ii<=sorok; ii++) //inicializálás, 1től 500ig, és sorok == 500
            {
                double ti = 1.0;
                ti = ti/sorok;
-                   pr[ii] = ti;
+                pr.put(ii, ti); 
            }
           
            for(int kk = 0; kk<100; kk++)  //rank számolása 100as mélységre
            {
                    
-                    for(int ii = 0; ii<sorok; ii++)
+                    for(int ii = 1; ii<=sorok; ii++)// 1től 500ig, és sorok == 500
                     {
                        //N(j) számolása
                         int nj = 0;    
-                        for(int ni = 0; ni<sorok; ni++){ nj += szomsz[ii][ni]; }
-                       
-                       
+                        for(int ni = 0; ni<sorok; ni++)
+                        { nj += szomsz[ii-1][ni]; } //ii-1, mert a tömb 0tól indul
                        
                         double szumma = 0;
                         double tempsum = 0;
                        
-                        for(int jj = 0; jj<sorok; jj++)
+                        for(int jj = 1; jj<=sorok; jj++) //jj mint ii ben: 1től 500ig, és sorok==500
                         {
-                             if(szomsz[jj][ii]==1) szumma += pr[jj]/nj;
+                             if(szomsz[jj-1][ii-1]==1) szumma += pr.get(jj) /nj;
                             
                         }
                        
                         //új pagerank
                        
-                        pr[ii] = d*szumma + (1.0-d)/sorok;
-                        
+                        double sum = d*szumma + (1.0-d)/sorok;
+                        pr.put(ii, sum); //az ii indexű elembe eltárolja
                        
                        
                     }
                    
                      
            }
-   
-           for(int i=1; i<=sorok; i++)
+           
+           
+   //10 legjobb találat
+           tarea.setText("");
+           for(int i=1; i<=10; i++)
            {
-               
-                System.out.println( i + " " + linkek.get(i) + " " + pr[i-1]);
+             tarea.append( i + "\t" + linkek.get(i) + "\t" + pr.get(i) + "\n");
            }
    }
     
