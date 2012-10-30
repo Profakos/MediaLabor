@@ -190,32 +190,50 @@ public class Main extends Frame {
           
            for(int kk = 0; kk<100; kk++)  //rank számolása 100as mélységre
            {
-                   
+                   //végig megyünk minden ponton
                     for(int ii = 1; ii<=sorok; ii++)// 1től 500ig, és sorok == 500
                     {
-                       //N(j) számolása
-                        int nj = 0;    
-                        for(int ni = 0; ni<sorok; ni++)
-                        { nj += szomsz[ii-1][ni]; } //ii-1, mert a tömb 0tól indul
                        
-                        double szumma = 0;
-                        double tempsum = 0;
-                       
+                        
+                        double szum = 0; 
+                        
+                        //megkeressük a szomszédjait
                         for(int jj = 1; jj<=sorok; jj++) //jj mint ii ben: 1től 500ig, és sorok==500
                         {
-                            if(nj==0){nj=1;}
-                             if(szomsz[jj-1][ii-1]==1) szumma += pr.get(jj) /nj;
-                            
+                            if(szomsz[jj-1][ii-1]==1) 
+                             {
+                            //N(j) számolása
+                            int nj = 0; 
+                            for(int ni = 0; ni<sorok; ni++)
+                             { 
+                                 nj += szomsz[jj-1][ni]; 
+                             } //ii-1, mert a tömb 0tól indul
+                       
+                            if(nj==0)
+                            {
+                            nj=0;
+                            }
+                             
+                                 szum += pr.get(jj) /nj;
+                                 pr.put(ii, szum);
+                             }
                         }
                        
                         //új pagerank
-                       
-                        double sum = d*szumma + (1.0-d)/sorok;
+                     //ha már minden rámutató linken végigmentünk  
+                       double sum = d*pr.get(ii) + (1.0-d)/sorok;
                         pr.put(ii, sum); //az ii indexű elembe eltárolja
                         
                        
                     }
                    
+                    for(int ii=1; ii<sorok;ii++)
+                    {
+                    
+                       double sum = d*pr.get(ii) + (1.0-d)/sorok;
+                        pr.put(ii, sum); //az ii indexű elembe eltárolja
+                    
+                    }
                      
            }
            
