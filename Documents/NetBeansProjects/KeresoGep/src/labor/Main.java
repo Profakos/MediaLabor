@@ -8,7 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
-import java.util.HashMap;
+import java.util.*;
+import java.util.List;
 
 public class Main extends Frame {
    
@@ -58,7 +59,7 @@ public class Main extends Frame {
         
        this.add(tarea);
        
-       this.setBounds(600,300, 300, 300);
+       this.setBounds(300,300, 300, 600);
    
        
        this.addWindowListener(new WindowAdapter(){
@@ -218,11 +219,33 @@ public class Main extends Frame {
            }
            
            
+         //Az IDket kitesszük egy Listbe, majd sorbarendezzük őket a hozzátartozó PR alapján  
+             List<Integer> idByPR = new ArrayList<>();
+             idByPR.addAll(pr.keySet()); 
+             
+            Collections.sort(idByPR, new Comparator<Integer>() {
+ 
+            @Override
+        public int compare(Integer o1, Integer o2) {
+            
+                
+                 if(pr.get(o1)<pr.get(o2)) return -1;
+             //    if(pr.get(o1)==pr.get(o2)) return 0;
+                 if(pr.get(o1)<pr.get(o2)) return 1;
+                 
+                 return 0;
+        }
+    });
+
+           
+           
    //10 legjobb találat
            tarea.setText("");
-           for(int i=1; i<=10; i++)
+           for(int i=0; i<10; i++)
            {
-             tarea.append( i + "\t" + linkek.get(i) + "\t" + pr.get(i) + "\n");
+               int ti = idByPR.get(i);
+               
+             tarea.append( ti + "\t" + linkek.get(ti) + "\t" + pr.get(ti) + "\n");
            }
    }
     
