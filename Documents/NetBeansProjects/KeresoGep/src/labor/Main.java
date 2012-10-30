@@ -209,10 +209,7 @@ public class Main extends Frame {
                                  nj += szomsz[jj-1][ni]; 
                              } //ii-1, mert a tömb 0tól indul
                        
-                            if(nj==0)
-                            {
-                            nj=0;
-                            }
+                           
                              
                                  szum += pr.get(jj) /nj;
                                  pr.put(ii, szum);
