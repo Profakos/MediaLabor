@@ -203,6 +203,7 @@ public class Main extends Frame {
                        
                         for(int jj = 1; jj<=sorok; jj++) //jj mint ii ben: 1től 500ig, és sorok==500
                         {
+                            if(nj==0){nj=1;}
                              if(szomsz[jj-1][ii-1]==1) szumma += pr.get(jj) /nj;
                             
                         }
@@ -231,7 +232,7 @@ public class Main extends Frame {
                 
                  if(pr.get(o1)<pr.get(o2)) return  1;
              //    if(pr.get(o1)==pr.get(o2)) return 0;
-                 if(pr.get(o1)<pr.get(o2)) return -1;
+                 if(pr.get(o1)>pr.get(o2)) return -1;
                  
                  return 0;
         }
