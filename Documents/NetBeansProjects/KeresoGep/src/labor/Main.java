@@ -253,15 +253,19 @@ public class Main extends Frame {
         }
     });
 
-           
+          for(int i = 0; i<10; i++) { System.out.println(idByPR.get(i));} 
            
    //10 legjobb találat
            tarea.setText("");
-           for(int i=0; i<10; i++)
+           for(int i=0, j=0; i<idByPR.size() && j<10; i++)
            {
-               int ti = idByPR.get(i);
+              int ti = idByPR.get(i);
                
+              if(linkek.get(ti).contains(tfield.getText()))
+              {
              tarea.append( ti + "\t" + linkek.get(ti) + "\t" + pr.get(ti) + "\n");
+              j++;
+              }
            }
    }
     
